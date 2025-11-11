@@ -5,8 +5,11 @@
   "scripts": {
     "start": "node index.js"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "dependencies": {
-    "scramjet": "^5.0.0",
+    "scramjet": "^4.3.12",
     "express": "^4.18.2",
     "node-fetch": "^3.3.1"
   }
