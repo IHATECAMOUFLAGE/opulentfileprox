@@ -10,18 +10,22 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get("/", async (req, res) => {
+    const targetUrl = req.query.url;
+    if (!targetUrl) return res.status(400).send("Please provide a URL using ?url=YOUR_URL");
+
     try {
-        const response = await fetch("https://example.com"); // replace with your target URL
-        const text = await response.text();
+        const response = await fetch(targetUrl);
+        const html = await response.text();
 
-        // example of using StringStream
-        const result = await StringStream.from(text)
-            .map(line => line.toUpperCase())
-            .toArray();
+        // Optional: modify the HTML using Scramjet if needed
+        const processedHtml = await StringStream.from(html)
+            .toArray()
+            .then(lines => lines.join("")); // currently just joins back into a string
 
-        res.send(result.join("\n"));
+        res.setHeader("Content-Type", "text/html");
+        res.send(processedHtml);
     } catch (err) {
-        res.status(500).send(err.toString());
+        res.status(500).send("Error fetching URL: " + err.toString());
     }
 });
 
