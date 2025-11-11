@@ -15,13 +15,15 @@ app.get("/scramjet", async (req, res) => {
 
     const result = await StringStream.from(text)
       .lines()
-      .map(line => line.replace(/google/gi, "myproxy"))
+      .map(line => line)  // just pass through for now
       .toArray();
 
     res.send(result.join("\n"));
-  } catch (e) {
-    res.status(500).send(e.toString());
+  } catch (err) {
+    res.status(500).send(err.toString());
   }
 });
 
-app.listen(PORT, () => console.log(`Scramjet proxy running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Scramjet proxy running on port ${PORT}`);
+});
