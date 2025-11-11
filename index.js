@@ -15,7 +15,7 @@ app.get("/scramjet", async (req, res) => {
 
     const result = await StringStream.from(text)
       .lines()
-      .map(line => line) // just pass through
+      .map(line => line) // just pass-through
       .toArray();
 
     res.send(result.join("\n"));
